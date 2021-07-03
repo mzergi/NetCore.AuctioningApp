@@ -124,5 +124,22 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
                 return a;
             }
         }
+
+        public async Task<Auction> UpdateAuction(int id, Auction auction)
+        {
+            var toUpdate = await this.GetAuction(id);
+
+            toUpdate.Description = auction.Description;
+            toUpdate.EndOfAuction = auction.EndOfAuction;
+            toUpdate.StartOfAuction = auction.StartOfAuction;
+            toUpdate.StartingPrice = auction.StartingPrice;
+            toUpdate.Highlighted = auction.Highlighted;
+            toUpdate.Product = auction.Product;
+            toUpdate.ProductID = auction.ProductID;
+
+            await this.db.SaveChangesAsync();
+
+            return toUpdate;
+        }
     }
 }

@@ -316,6 +316,31 @@ namespace AuctioningApp.Domain.BLL.Services
             }
         }
 
-        
+        public async Task<Auction> UpdateAuction(int id, Auction toUpdate)
+        {
+            return await auctionsRepository.UpdateAuction(id, toUpdate);
+        }
+
+        public Auction ConvertAuctionItemToAuction(AuctionItem auction)
+        {
+            if(auction.Bids.Count > 0)
+            {
+                throw new ArgumentException("Can't edit auction that already has bids!");
+            }
+            if(auction.StartOfAuction > DateTime.Now)
+            {
+                throw new ArgumentException("Can't edit auction that is already started!");
+            }
+            return new Auction()
+            {
+                Product = auction.Product,
+                Description = auction.Description,
+                StartOfAuction = auction.StartOfAuction,
+                EndOfAuction = auction.EndOfAuction,
+                ProductID = auction.Product.ID,
+                Highlighted = auction.Highlighted,
+                StartingPrice = auction.StartingPrice
+            };
+        }
     }
 }

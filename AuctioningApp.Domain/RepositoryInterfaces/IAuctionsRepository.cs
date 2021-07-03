@@ -23,5 +23,7 @@ namespace AuctioningApp.Domain.RepositoryInterfaces
         public Task<List<Auction>> FindAuctionsByName(string query);
 
         public void DeleteAuction(int id);
+
+        public Task<Auction> UpdateAuction(int id, Auction auction);
     }
 }
