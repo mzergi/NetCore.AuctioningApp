@@ -26,5 +26,6 @@ namespace AuctioningApp.Domain.BLL.ServiceInterfaces
         Task<List<AuctionItem>> GetAuctionsLike(string name);
         Task<List<AuctionItem>> GetFollowedAuctionsOfUser(int id);
         Task<Auction> UpdateAuction(int id, Auction toUpdate);
+        Task<List<AuctionItem>> GetAuctionsCreatedByUser(int id);
     }
 }

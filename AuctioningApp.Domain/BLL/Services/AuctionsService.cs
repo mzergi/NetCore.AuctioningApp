@@ -50,7 +50,8 @@ namespace AuctioningApp.Domain.BLL.Services
                 Bids = auction.Bids,
                 TopBid = highestBid,
                 Highlighted = auction.Highlighted,
-                StartingPrice = auction.StartingPrice
+                StartingPrice = auction.StartingPrice,
+                CreatedBy = auction.CreatedBy
             };
 
             return item;
@@ -339,8 +340,17 @@ namespace AuctioningApp.Domain.BLL.Services
                 EndOfAuction = auction.EndOfAuction,
                 ProductID = auction.Product.ID,
                 Highlighted = auction.Highlighted,
-                StartingPrice = auction.StartingPrice
+                StartingPrice = auction.StartingPrice,
+                CreatedBy = auction.CreatedBy,
+                CreatedById = auction.CreatedBy.ID
             };
+        }
+
+        public async Task<List<AuctionItem>> GetAuctionsCreatedByUser(int id)
+        {
+            var auctions = await this.auctionsRepository.GetAuctionsCreatedByUser(id);
+
+            return auctions.Select(ConvertAuctionToAuctionItem).ToList();
         }
     }
 }

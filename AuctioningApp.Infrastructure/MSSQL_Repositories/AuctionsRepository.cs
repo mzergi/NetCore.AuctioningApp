@@ -37,6 +37,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
                 .ThenInclude(i => i.Category)
                 .Include(i => i.TopBidder)
                 .Include(i => i.Bids)
+                .Include(i => i.CreatedBy)
                 .Select(a => a)
                 .Where(a => a.Product.Name.Contains(query))
                 .ToListAsync();
@@ -51,6 +52,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
                 .ThenInclude(p => p.Category)
                 .Include(i => i.TopBidder)
                 .Include(i => i.Bids)
+                .Include(i => i.CreatedBy)
                 .Select(a => a)
                 .AsSplitQuery()
                 .OrderBy(a => a.ID)
@@ -66,6 +68,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
                 .ThenInclude(p => p.Category)
                 .Include(i => i.TopBidder)
                 .Include(i => i.Bids)
+                .Include(i => i.CreatedBy)
                 .OrderBy(a => a.ID)
                 .FirstOrDefaultAsync(a => a.ID == id);
 
@@ -79,6 +82,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
                 .ThenInclude(p => p.Category)
                 .Include(i => i.TopBidder)
                 .Include(i => i.Bids)
+                .Include(i => i.CreatedBy)
                 .Select(a => a)
                 .Where(a => a.Product.Category == category)
                 .AsSplitQuery()
@@ -95,6 +99,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
                 .ThenInclude(p => p.Category)
                 .Include(i => i.TopBidder)
                 .Include(i => i.Bids)
+                .Include(i => i.CreatedBy)
                 .Select(a => a)
                 .Where(a => a.Highlighted == highlighted)
                 .AsSplitQuery()
@@ -136,10 +141,17 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
             toUpdate.Highlighted = auction.Highlighted;
             toUpdate.Product = auction.Product;
             toUpdate.ProductID = auction.ProductID;
+            toUpdate.CreatedBy = auction.CreatedBy;
+            toUpdate.CreatedById = auction.CreatedById;
 
             await this.db.SaveChangesAsync();
 
             return toUpdate;
+        }
+
+        public async Task<List<Auction>> GetAuctionsCreatedByUser(int id)
+        {
+            return await this.db.Auctions.Select(a => a).Where(a => a.CreatedById == id).ToListAsync();
         }
     }
 }

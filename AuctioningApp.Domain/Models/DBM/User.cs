@@ -18,5 +18,7 @@ namespace AuctioningApp.Domain.Models.DBM
         public List<Bid> Bids { get; set; }
         [JsonIgnore]
         public List<Auction> FollowedAuctions { get; set; }
+        [JsonIgnore]
+        public List<Auction> CreatedAuctions { get; set; }
     }
 }
