@@ -151,7 +151,13 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
 
         public async Task<List<Auction>> GetAuctionsCreatedByUser(int id)
         {
-            return await this.db.Auctions.Select(a => a).Where(a => a.CreatedById == id).ToListAsync();
+            return await this.db.Auctions
+                .Include(i => i.Product)
+                .ThenInclude(p => p.Category)
+                .Include(i => i.TopBidder)
+                .Include(i => i.Bids)
+                .Include(i => i.CreatedBy)
+                .Select(a => a).Where(a => a.CreatedById == id).ToListAsync();
         }
     }
 }
