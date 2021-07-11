@@ -186,6 +186,10 @@ namespace AuctioningApp.Domain.BLL.Services
         {
             var highestbid = FindHighestBid(bid.Auction);
             var now = DateTime.Now.ToUniversalTime();
+
+            if (bid.BidderID == bid.Auction.CreatedById) 
+                return false;
+
             if (highestbid != null)
             {
                 var highestbidvalue = highestbid.BiddedAmount;
