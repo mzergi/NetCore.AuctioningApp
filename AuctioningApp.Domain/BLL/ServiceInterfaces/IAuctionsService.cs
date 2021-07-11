@@ -16,6 +16,7 @@ namespace AuctioningApp.Domain.BLL.ServiceInterfaces
         Task<Auction> HighlightAuction(int id, Boolean val);
         void RemoveAuction(int id);
         AuctionItem ConvertAuctionToAuctionItem(Auction auction);
+        Auction ConvertAuctionItemToAuction(AuctionItem auction);
         double? FindHighestBidValue(Auction auction);
         Bid FindHighestBid(Auction auction);
         Task<List<AuctionItem>> GetHighlightedAuctions(Boolean highlighted);
@@ -24,5 +25,6 @@ namespace AuctioningApp.Domain.BLL.ServiceInterfaces
         Task<List<AuctionItem>> GetAuctionsOfCategory(int categoryID);
         Task<List<AuctionItem>> GetAuctionsLike(string name);
         Task<List<AuctionItem>> GetFollowedAuctionsOfUser(int id);
+        Task<Auction> UpdateAuction(int id, Auction toUpdate);
     }
 }

@@ -132,16 +132,7 @@ namespace AuctioningApp.API.Controllers
         [HttpPost("auctions/create")]
         public async Task<ActionResult<Auction>> createAuction([FromBody] AuctionItem auction)
         {
-            Auction a = new Auction()
-            {
-                Product = auction.Product,
-                Description = auction.Description,
-                StartOfAuction = auction.StartOfAuction,
-                EndOfAuction = auction.EndOfAuction,
-                ProductID = auction.Product.ID,
-                Highlighted = auction.Highlighted,
-                StartingPrice = auction.StartingPrice,
-            };
+            Auction a = auctionsService.ConvertAuctionItemToAuction(auction);
 
             if (await productService.GetProduct(auction.Product.ID) == null)
                 await productService.CreateProduct(auction.Product);
@@ -153,6 +144,27 @@ namespace AuctioningApp.API.Controllers
         public async Task<List<Product>> getAllProducts()
         {
             return await productService.GetAllProducts();
+        }
+        [HttpPut("auctions/{id}")]
+        public async Task<IActionResult> updateAuction(int id, [FromBody] AuctionItem toUpdate)
+        {
+            try
+            {
+                Auction a = auctionsService.ConvertAuctionItemToAuction(toUpdate);
+
+                if (await productService.GetProduct(toUpdate.Product.ID) == null)
+                    await productService.CreateProduct(toUpdate.Product);
+
+                var updated = await auctionsService.UpdateAuction(id, a);
+
+                var dto = auctionsService.ConvertAuctionToAuctionItem(updated);
+
+                return Ok(dto);
+            }
+            catch(ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
