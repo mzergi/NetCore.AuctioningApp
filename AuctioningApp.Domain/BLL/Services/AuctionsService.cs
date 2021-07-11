@@ -319,6 +319,11 @@ namespace AuctioningApp.Domain.BLL.Services
 
         public async Task<Auction> UpdateAuction(int id, Auction toUpdate)
         {
+            var auction = await auctionsRepository.GetAuction(id);
+
+            if (auction.StartOfAuction < DateTime.Now || auction.EndOfAuction < DateTime.Now)
+                throw new ArgumentException("Auction can't be updated if it's already started/has ended!");
+
             return await auctionsRepository.UpdateAuction(id, toUpdate);
         }
 
