@@ -17,5 +17,6 @@ namespace AuctioningApp.Domain.Models.DTO
         public Bid TopBid { get; set; }
         public Boolean Highlighted { get; set; }
         public int StartingPrice { get; set; }
+        public User CreatedBy { get; set; }
     }
 }

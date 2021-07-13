@@ -227,6 +227,11 @@ namespace AuctioningApp.Infrastructure.Context
                 .HasForeignKey(f => f.ProductID);
             modelBuilder.Entity<Auction>()
                 .Property(a => a.Description).HasMaxLength(300).IsRequired(required: false).IsUnicode(unicode: true);
+            modelBuilder.Entity<Auction>()
+                .HasOne(a => a.CreatedBy)
+                .WithMany(u => u.CreatedAuctions)
+                .HasForeignKey(a => a.CreatedById)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Auction>()
                 .HasData(
@@ -238,6 +243,7 @@ namespace AuctioningApp.Infrastructure.Context
                             Description = "iPhone X mobiltelefon, 2 hónapig használt",
                             TopBidderID = 1,
                             ProductID = 1,
+                            CreatedById = 1,
                             StartOfAuction = new System.DateTime(2020,01,01,12,0,0),
                             EndOfAuction = new System.DateTime(2024,02,01,12,0,0),
                             Highlighted = false,
@@ -249,6 +255,7 @@ namespace AuctioningApp.Infrastructure.Context
                             Description = "Samsung Galaxy A41 mobiltelefon, 5 hónapig használt, makulátlan állapotban",
                             TopBidderID = 1,
                             ProductID = 2,
+                            CreatedById = 1,
                             StartOfAuction = new System.DateTime(2020,01,01,12,0,0),
                             EndOfAuction = new System.DateTime(2024,02,01,12,0,0),
                             Highlighted = true,
@@ -260,6 +267,7 @@ namespace AuctioningApp.Infrastructure.Context
                             Description = "IKEA Jahrmührgangül asztal, fehér",
                             TopBidderID = 1,
                             ProductID = 3,
+                            CreatedById = 1,
                             StartOfAuction = new System.DateTime(2020,01,01,12,0,0),
                             EndOfAuction = new System.DateTime(2024,02,01,12,0,0),
                             Highlighted = true,

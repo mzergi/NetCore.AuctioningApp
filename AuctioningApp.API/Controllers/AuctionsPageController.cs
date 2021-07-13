@@ -166,5 +166,13 @@ namespace AuctioningApp.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("auctions/createdBy/{id}")]
+        public async Task<IActionResult> getAuctionsCreatedByUser(int id)
+        {
+            var auctions = await this.auctionsService.GetAuctionsCreatedByUser(id);
+
+            return Ok(auctions);
+        }
     }
 }

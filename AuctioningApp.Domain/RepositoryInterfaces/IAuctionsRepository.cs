@@ -25,5 +25,7 @@ namespace AuctioningApp.Domain.RepositoryInterfaces
         public void DeleteAuction(int id);
 
         public Task<Auction> UpdateAuction(int id, Auction auction);
+
+        public Task<List<Auction>> GetAuctionsCreatedByUser(int id);
     }
 }
