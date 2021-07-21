@@ -250,7 +250,7 @@ namespace AuctioningApp.Domain.BLL.Services
 
             else
             {
-                throw new ArgumentException($"Bidded amount must be higher than current highest bid or the bid has not started or ended!");
+                throw new ArgumentException($"Invalid bid!");
             }
 
             starttime.Stop();
