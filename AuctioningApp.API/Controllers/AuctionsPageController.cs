@@ -174,5 +174,15 @@ namespace AuctioningApp.API.Controllers
 
             return Ok(auctions);
         }
+
+        [HttpGet("products/category/{id}")]
+        public async Task<IActionResult> getProductsOfCategory(int id)
+        {
+            var products = await this.productService.GetAllProducts();
+
+            var productsOfCategory = products.Where(p => p.CategoryID == id).ToList();
+
+            return Ok(productsOfCategory);
+        }
     }
 }
