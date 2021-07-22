@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using AuctioningApp.Domain.Models.DBM;
 
-namespace AuctioningApp.Domain.Models.DBM
+namespace AuctioningApp.Domain.Models.DTO
 {
-    public class Auction
+    public class AuctionCreateDto
     {
-        public int ID { get; set; }
-        public User? TopBidder { get; set; }
-        public Product Product { get; set; }
         public string Description { get; set; }
         public DateTime StartOfAuction { get; set; }
         public DateTime EndOfAuction { get; set; }
-        public int? TopBidderID { get; set; }
         public int ProductID { get; set; }
-        public List<Bid> Bids { get; set; }
         public Boolean Highlighted { get; set; }
         public int StartingPrice { get; set; }
         public int CreatedById { get; set; }
-        public User CreatedBy { get; set; }
     }
 }

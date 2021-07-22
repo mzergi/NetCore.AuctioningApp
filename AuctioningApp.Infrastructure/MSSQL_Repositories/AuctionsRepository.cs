@@ -126,6 +126,8 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
 
                 await db.SaveChangesAsync();
 
+                await tran.CommitAsync();
+
                 return a;
             }
         }

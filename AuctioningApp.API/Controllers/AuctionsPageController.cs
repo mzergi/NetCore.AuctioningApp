@@ -12,11 +12,14 @@ using AuctioningApp.Domain.BLL.Services;
 using AuctioningApp.Domain.Models.DBM;
 using AuctioningApp.API.WebModels;
 using AuctioningApp.Domain.Models.DTO;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Logging;
 
 namespace AuctioningApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsPolicy")]
     public class AuctionsPageController : ControllerBase
     {
         private readonly IAuctionsService auctionsService;
@@ -130,12 +133,18 @@ namespace AuctioningApp.API.Controllers
             return await auctionsService.GetFollowedAuctionsOfUser(id);
         }
         [HttpPost("auctions/create")]
-        public async Task<ActionResult<Auction>> createAuction([FromBody] AuctionItem auction)
+        public async Task<ActionResult<Auction>> createAuction([FromBody] AuctionCreateDto auction)
         {
-            Auction a = auctionsService.ConvertAuctionItemToAuction(auction);
-
-            if (await productService.GetProduct(auction.Product.ID) == null)
-                await productService.CreateProduct(auction.Product);
+            Auction a = new Auction()
+            {
+                ProductID = auction.ProductID,
+                Description = auction.Description,
+                StartOfAuction = auction.StartOfAuction,
+                EndOfAuction = auction.EndOfAuction,
+                StartingPrice = auction.StartingPrice,
+                Highlighted = auction.Highlighted,
+                CreatedById = auction.CreatedById,
+            };
 
             return await auctionsService.PostAuction(a);
         }
@@ -183,6 +192,27 @@ namespace AuctioningApp.API.Controllers
             var productsOfCategory = products.Where(p => p.CategoryID == id).ToList();
 
             return Ok(productsOfCategory);
+        }
+
+        [HttpPost("products")]
+        public async Task<IActionResult> PostProduct([FromBody] ProductCreateDto product)
+        {
+            try
+            {
+                Product toCreate = new Product()
+                {
+                    Name = product.Name,
+                    CategoryID = product.CategoryID
+                };
+                var created = await this.productService.CreateProduct(toCreate);
+
+                return Ok(created);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
