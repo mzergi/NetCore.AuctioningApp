@@ -179,6 +179,8 @@ namespace AuctioningApp.Domain.BLL.Services
 
         public async Task<Auction> PostAuction(Auction auction)
         {
+            if (auction.StartOfAuction > auction.EndOfAuction)
+                throw new ArgumentException("Auction can't be started after it is finished!");
             return await auctionsRepository.PostAuction(auction);
         }
 

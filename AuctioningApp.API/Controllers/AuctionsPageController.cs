@@ -135,18 +135,26 @@ namespace AuctioningApp.API.Controllers
         [HttpPost("auctions/create")]
         public async Task<ActionResult<Auction>> createAuction([FromBody] AuctionCreateDto auction)
         {
-            Auction a = new Auction()
+            try
             {
-                ProductID = auction.ProductID,
-                Description = auction.Description,
-                StartOfAuction = auction.StartOfAuction,
-                EndOfAuction = auction.EndOfAuction,
-                StartingPrice = auction.StartingPrice,
-                Highlighted = auction.Highlighted,
-                CreatedById = auction.CreatedById,
-            };
+                Auction a = new Auction()
+                {
+                    ProductID = auction.ProductID,
+                    Description = auction.Description,
+                    StartOfAuction = auction.StartOfAuction,
+                    EndOfAuction = auction.EndOfAuction,
+                    StartingPrice = auction.StartingPrice,
+                    Highlighted = auction.Highlighted,
+                    CreatedById = auction.CreatedById,
+                };
 
-            return await auctionsService.PostAuction(a);
+                return await auctionsService.PostAuction(a);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         [HttpGet("products")]
