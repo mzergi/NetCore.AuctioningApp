@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuctioningApp.Domain.Models.DTO;
 
 namespace AuctioningApp.API.Hubs
 {
@@ -19,6 +20,11 @@ namespace AuctioningApp.API.Hubs
         public async Task SendBid(Bid bid)
         {
             await context.Clients.All.SendAsync("bidReceived", bid);
+        }
+
+        public async Task CreatedAuction(AuctionItem auction)
+        {
+            await context.Clients.All.SendAsync("auctionCreated", auction);
         }
     }
 }

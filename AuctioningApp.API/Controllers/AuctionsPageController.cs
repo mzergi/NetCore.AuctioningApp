@@ -147,8 +147,14 @@ namespace AuctioningApp.API.Controllers
                     Highlighted = auction.Highlighted,
                     CreatedById = auction.CreatedById,
                 };
+                
+                var created = await auctionsService.PostAuction(a);
 
-                return await auctionsService.PostAuction(a);
+                var dto = auctionsService.ConvertAuctionToAuctionItem(created);
+
+                await this.auctionsHub.CreatedAuction(dto);
+
+                return created;
             }
             catch (Exception ex)
             {
