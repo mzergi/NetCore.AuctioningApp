@@ -190,7 +190,7 @@ namespace AuctioningApp.API.Controllers
             }
         }
 
-        [HttpGet("auctions/createdBy/{id}")]
+        [HttpGet("auctions/created-by/{id}")]
         public async Task<IActionResult> getAuctionsCreatedByUser(int id)
         {
             var auctions = await this.auctionsService.GetAuctionsCreatedByUser(id);
