@@ -363,5 +363,12 @@ namespace AuctioningApp.Domain.BLL.Services
 
             return auctions.Select(ConvertAuctionToAuctionItem).ToList();
         }
+
+        public async Task<double> AddCashToUser(int id, double amount)
+        {
+            var user = await this.usersRepository.GetUser(id);
+            await this.usersRepository.AddCashToUser(user, amount);
+            return user.Balance;
+        }
     }
 }

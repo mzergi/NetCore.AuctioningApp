@@ -13,6 +13,7 @@ using AuctioningApp.Domain.Models.DBM;
 using AuctioningApp.API.WebModels;
 using AuctioningApp.Domain.Models.DTO;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.Extensions.Logging;
 
 namespace AuctioningApp.API.Controllers
@@ -221,6 +222,21 @@ namespace AuctioningApp.API.Controllers
                 var created = await this.productService.CreateProduct(toCreate);
 
                 return Ok(created);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("user/{id}/wallet")]
+        public async Task<IActionResult> UpdateWallet(int id, [FromBody] double amount)
+        {
+            try
+            {
+                var updated = await this.auctionsService.AddCashToUser(id, amount);
+                return Ok(updated);
             }
             catch (Exception ex)
             {

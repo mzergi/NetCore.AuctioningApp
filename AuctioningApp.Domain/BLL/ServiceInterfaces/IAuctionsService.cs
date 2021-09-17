@@ -27,5 +27,6 @@ namespace AuctioningApp.Domain.BLL.ServiceInterfaces
         Task<List<AuctionItem>> GetFollowedAuctionsOfUser(int id);
         Task<Auction> UpdateAuction(int id, Auction toUpdate);
         Task<List<AuctionItem>> GetAuctionsCreatedByUser(int id);
+        Task<double> AddCashToUser(int id, double amount);
     }
 }
