@@ -327,22 +327,11 @@ namespace AuctioningApp.Domain.BLL.Services
         {
             var auction = await auctionsRepository.GetAuction(id);
 
-            if (auction.StartOfAuction < DateTime.Now || auction.EndOfAuction < DateTime.Now)
-                throw new ArgumentException("Auction can't be updated if it's already started/has ended!");
-
             return await auctionsRepository.UpdateAuction(id, toUpdate);
         }
 
         public Auction ConvertAuctionItemToAuction(AuctionItem auction)
         {
-            if(auction.Bids.Count > 0)
-            {
-                throw new ArgumentException("Can't edit auction that already has bids!");
-            }
-            if(auction.StartOfAuction > DateTime.Now)
-            {
-                throw new ArgumentException("Can't edit auction that is already started!");
-            }
             return new Auction()
             {
                 Product = auction.Product,

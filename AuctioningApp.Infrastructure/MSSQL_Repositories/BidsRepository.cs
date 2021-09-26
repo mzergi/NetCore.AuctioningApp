@@ -17,8 +17,6 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
         public BidsRepository(MSSQL_Context db)
         {
             this.db = db;
-
-            db.ChangeTracker.AutoDetectChangesEnabled = false;
         }
         public async void DeleteBidAsync(int id)
         {

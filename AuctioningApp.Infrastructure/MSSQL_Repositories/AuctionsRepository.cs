@@ -17,8 +17,6 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
         public AuctionsRepository(MSSQL_Context db)
         {
             this.db = db;
-
-            db.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         public async void DeleteAuction(int id)
@@ -134,17 +132,14 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
 
         public async Task<Auction> UpdateAuction(int id, Auction auction)
         {
-            var toUpdate = await this.GetAuction(id);
+            var toUpdate = await this.db.Auctions.FirstOrDefaultAsync(a => a.ID == id);
 
             toUpdate.Description = auction.Description;
             toUpdate.EndOfAuction = auction.EndOfAuction;
             toUpdate.StartOfAuction = auction.StartOfAuction;
             toUpdate.StartingPrice = auction.StartingPrice;
             toUpdate.Highlighted = auction.Highlighted;
-            toUpdate.Product = auction.Product;
             toUpdate.ProductID = auction.ProductID;
-            toUpdate.CreatedBy = auction.CreatedBy;
-            toUpdate.CreatedById = auction.CreatedById;
 
             await this.db.SaveChangesAsync();
 

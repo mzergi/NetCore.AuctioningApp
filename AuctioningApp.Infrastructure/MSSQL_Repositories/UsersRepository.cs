@@ -17,8 +17,6 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
         public UsersRepository(MSSQL_Context db)
         {
             this.db = db;
-
-            db.ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         public async Task<User> AddUser(User user)
