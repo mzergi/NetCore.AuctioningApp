@@ -26,7 +26,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
             {
                 db.Categories.Remove(category);
 
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
         }
 

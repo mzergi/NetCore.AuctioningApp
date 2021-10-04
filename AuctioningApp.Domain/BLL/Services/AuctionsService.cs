@@ -262,7 +262,7 @@ namespace AuctioningApp.Domain.BLL.Services
             return ConvertAuctionToAuctionItem(bid.Auction);
         }
 
-        public async void RemoveAuction(int id)
+        public async Task<Auction> RemoveAuction(int id)
         {
             var auction = await auctionsRepository.GetAuction(id);
 
@@ -278,6 +278,7 @@ namespace AuctioningApp.Domain.BLL.Services
             else
             {
                 auctionsRepository.DeleteAuction(id);
+                return auction;
             }
         }
 
@@ -353,11 +354,11 @@ namespace AuctioningApp.Domain.BLL.Services
             return auctions.Select(ConvertAuctionToAuctionItem).ToList();
         }
 
-        public async Task<double> AddCashToUser(int id, double amount)
+        public async Task<User> AddCashToUser(int id, double amount)
         {
             var user = await this.usersRepository.GetUser(id);
             await this.usersRepository.AddCashToUser(user, amount);
-            return user.Balance;
+            return user;
         }
     }
 }

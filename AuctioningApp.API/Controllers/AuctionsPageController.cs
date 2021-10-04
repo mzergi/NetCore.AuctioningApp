@@ -83,16 +83,32 @@ namespace AuctioningApp.API.Controllers
         [HttpGet("auctions/{id}")]
         public async Task<AuctionItem> GetAuctionItem(int id)
         {
-            return await auctionsService.GetAuction(id);
+            try
+            {
+                return await auctionsService.GetAuction(id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
         [HttpPatch("auctions/{id}")]
         public async Task<AuctionItem> PostBidOnAuction([FromBody] Bid bid)
         {
-            var result = await auctionsService.PostBidOnAuction(bid);
+            try
+            {
+                var result = await auctionsService.PostBidOnAuction(bid);
 
-            await auctionsHub.SendBid(bid);
+                await auctionsHub.SendBid(bid);
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
         [HttpGet("auctions/highlighted")]
         public async Task<List<AuctionItem>> GetHighlightedAuctions()
@@ -126,12 +142,28 @@ namespace AuctioningApp.API.Controllers
         [HttpGet("auctions/category/{id}")]
         public async Task<List<AuctionItem>> GetAuctionsOfCategory(int id)
         {
-            return await auctionsService.GetAuctionsOfCategory(id);
+            try
+            {
+                return await auctionsService.GetAuctionsOfCategory(id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
         [HttpGet("auctions/followed-by/{id}")]
         public async Task<List<AuctionItem>> GetAuctionsOfUser(int id)
         {
-            return await auctionsService.GetFollowedAuctionsOfUser(id);
+            try
+            {
+                return await auctionsService.GetFollowedAuctionsOfUser(id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
         [HttpPost("auctions/create")]
         public async Task<ActionResult<Auction>> createAuction([FromBody] AuctionCreateDto auction)
@@ -194,19 +226,36 @@ namespace AuctioningApp.API.Controllers
         [HttpGet("auctions/created-by/{id}")]
         public async Task<IActionResult> getAuctionsCreatedByUser(int id)
         {
-            var auctions = await this.auctionsService.GetAuctionsCreatedByUser(id);
+            try
+            {
+                var auctions = await this.auctionsService.GetAuctionsCreatedByUser(id);
 
-            return Ok(auctions);
+                return Ok(auctions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("products/category/{id}")]
         public async Task<IActionResult> getProductsOfCategory(int id)
         {
-            var products = await this.productService.GetAllProducts();
+            try
+            {
+                var products = await this.productService.GetAllProducts();
 
-            var productsOfCategory = products.Where(p => p.CategoryID == id).ToList();
+                var productsOfCategory = products.Where(p => p.CategoryID == id).ToList();
 
-            return Ok(productsOfCategory);
+                return Ok(productsOfCategory);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpPost("products")]
@@ -229,14 +278,32 @@ namespace AuctioningApp.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        public class AmountDto
+        {
+            public string Amount { get; set; }
+        }
         [HttpPut("user/{id}/wallet")]
-        public async Task<IActionResult> UpdateWallet(int id, [FromBody] double amount)
+        public async Task<IActionResult> UpdateWallet(int id, [FromBody] AmountDto amount)
+        {
+            var toAdd = Double.Parse(amount.Amount);
+            try
+            {
+                var updated = await this.auctionsService.AddCashToUser(id, toAdd);
+                return Ok(updated);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("auctions/{id}")]
+        public async Task<IActionResult> DeleteAuction(int id)
         {
             try
             {
-                var updated = await this.auctionsService.AddCashToUser(id, amount);
-                return Ok(updated);
+                var deleted = await this.auctionsService.RemoveAuction(id);
+                return Ok(this.auctionsService.ConvertAuctionToAuctionItem(deleted));
             }
             catch (Exception ex)
             {

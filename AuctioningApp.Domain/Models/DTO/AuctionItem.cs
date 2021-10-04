@@ -10,6 +10,7 @@ namespace AuctioningApp.Domain.Models.DTO
         public int ID { get; set; }
         public User TopBidder { get; set; }
         public Product Product { get; set; }
+        public int ProductID { get; set; }
         public string Description { get; set; }
         public DateTime StartOfAuction { get; set; }
         public DateTime EndOfAuction { get; set; }

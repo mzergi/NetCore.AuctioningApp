@@ -19,13 +19,15 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
             this.db = db;
         }
 
-        public async void DeleteAuction(int id)
+        public Auction DeleteAuction(int id)
         {
-            var auction = await db.Auctions.FirstOrDefaultAsync(a => a.ID == id);
+            var auction = db.Auctions.First(a => a.ID == id);
 
             db.Auctions.Remove(auction);
 
-            await db.SaveChangesAsync();
+            db.SaveChanges();
+
+            return auction;
         }
 
         public async Task<List<Auction>> FindAuctionsByName(string query)

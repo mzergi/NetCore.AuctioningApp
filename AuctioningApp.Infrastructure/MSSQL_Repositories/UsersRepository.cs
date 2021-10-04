@@ -48,7 +48,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
             {
                 db.Users.Remove(user);
 
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
         }
 

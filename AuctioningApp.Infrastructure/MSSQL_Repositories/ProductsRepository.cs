@@ -29,7 +29,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
             {
                 db.Products.Remove(product);
 
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
         }
 
