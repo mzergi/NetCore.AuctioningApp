@@ -15,6 +15,9 @@ using AuctioningApp.Domain.Models.DTO;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AuctioningApp.API.Controllers
 {
@@ -31,13 +34,16 @@ namespace AuctioningApp.API.Controllers
 
         private readonly ProductService productService;
 
+        private readonly IWebHostEnvironment hostEnvironment;
+
         public AuctionsPageController(IAuctionsService auctionsService, ICategoriesService categoriesService,
-            AuctionsHub auctionsHub, ProductService productService)
+            AuctionsHub auctionsHub, ProductService productService, IWebHostEnvironment hostEnvironment)
         {
             this.auctionsService = auctionsService;
             this.categoriesService = categoriesService;
             this.auctionsHub = auctionsHub;
             this.productService = productService;
+            this.hostEnvironment = hostEnvironment;
         }
         //api/auctionspage/categories
         [HttpGet("categories")]
@@ -170,6 +176,7 @@ namespace AuctioningApp.API.Controllers
         {
             try
             {
+
                 Auction a = new Auction()
                 {
                     ProductID = auction.ProductID,
@@ -194,6 +201,18 @@ namespace AuctioningApp.API.Controllers
                 Console.WriteLine(ex.Message);
                 return null;
             }
+        }
+        [NonAction]
+        public async Task<string> SaveImage(IFormFile imageFile)
+        {
+            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+            var imagePath = Path.Combine(hostEnvironment.ContentRootPath, "images", imageName);
+            using(var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+            return imageName;
         }
 
         [HttpGet("products")]

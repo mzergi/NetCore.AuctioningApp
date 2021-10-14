@@ -80,6 +80,8 @@ namespace AuctioningApp.API
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+
             GlobalHost.Configuration.DefaultMessageBufferSize = 500;
 
             app.UseEndpoints(endpoints => { 

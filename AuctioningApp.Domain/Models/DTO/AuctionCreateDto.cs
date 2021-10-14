@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AuctioningApp.Domain.Models.DBM;
+using Microsoft.AspNetCore.Http;
 
 namespace AuctioningApp.Domain.Models.DTO
 {
@@ -13,5 +14,6 @@ namespace AuctioningApp.Domain.Models.DTO
         public Boolean Highlighted { get; set; }
         public int StartingPrice { get; set; }
         public int CreatedById { get; set; }
+        public List<IFormFile> Images { get; set; }
     }
 }
