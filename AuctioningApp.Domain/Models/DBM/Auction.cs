@@ -19,5 +19,6 @@ namespace AuctioningApp.Domain.Models.DBM
         public int StartingPrice { get; set; }
         public User CreatedBy { get; set; }
         public int CreatedById { get; set; }
+        public string ImageRoute { get; set; }
     }
 }

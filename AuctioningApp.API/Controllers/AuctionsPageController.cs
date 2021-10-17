@@ -176,7 +176,7 @@ namespace AuctioningApp.API.Controllers
         {
             try
             {
-
+                var imageName = await this.SaveImage(auction.Image);
                 Auction a = new Auction()
                 {
                     ProductID = auction.ProductID,
@@ -186,6 +186,7 @@ namespace AuctioningApp.API.Controllers
                     StartingPrice = auction.StartingPrice,
                     Highlighted = auction.Highlighted,
                     CreatedById = auction.CreatedById,
+                    ImageRoute = imageName
                 };
                 
                 var created = await auctionsService.PostAuction(a);
