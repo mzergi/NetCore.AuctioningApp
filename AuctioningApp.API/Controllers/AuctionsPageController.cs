@@ -176,7 +176,6 @@ namespace AuctioningApp.API.Controllers
         {
             try
             {
-                var imageName = await this.SaveImage(auction.Image);
                 Auction a = new Auction()
                 {
                     ProductID = auction.ProductID,
@@ -186,7 +185,7 @@ namespace AuctioningApp.API.Controllers
                     StartingPrice = auction.StartingPrice,
                     Highlighted = auction.Highlighted,
                     CreatedById = auction.CreatedById,
-                    ImageRoute = imageName
+                    ImageUrl = auction.ImageName
                 };
                 
                 var created = await auctionsService.PostAuction(a);
@@ -203,17 +202,25 @@ namespace AuctioningApp.API.Controllers
                 return null;
             }
         }
-        [NonAction]
-        public async Task<string> SaveImage(IFormFile imageFile)
+        [HttpPost("auctions/image")]
+        public async Task<IActionResult> SaveImage([FromForm] IFormFile imageFile)
         {
-            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(hostEnvironment.ContentRootPath, "images", imageName);
-            using(var fileStream = new FileStream(imagePath, FileMode.Create))
+            try
             {
-                await imageFile.CopyToAsync(fileStream);
+                var now = DateTime.Now.Ticks.ToString();
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", String.Concat(now, imageFile.FileName));
+
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    imageFile.CopyTo(stream);
+                }
+
+                return Ok($"{String.Concat(now, imageFile.FileName)}");
             }
-            return imageName;
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("products")]

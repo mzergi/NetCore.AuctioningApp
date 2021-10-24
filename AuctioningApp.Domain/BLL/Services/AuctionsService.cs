@@ -51,7 +51,8 @@ namespace AuctioningApp.Domain.BLL.Services
                 TopBid = highestBid,
                 Highlighted = auction.Highlighted,
                 StartingPrice = auction.StartingPrice,
-                CreatedBy = auction.CreatedBy
+                CreatedBy = auction.CreatedBy,
+                ImageUrl = auction.ImageUrl
             };
 
             return item;
@@ -212,10 +213,7 @@ namespace AuctioningApp.Domain.BLL.Services
             {
                 return true;
             }
-
             return false;
-
-
         }
 
         public async Task<AuctionItem> PostBidOnAuction(Bid bid)
@@ -343,7 +341,8 @@ namespace AuctioningApp.Domain.BLL.Services
                 Highlighted = auction.Highlighted,
                 StartingPrice = auction.StartingPrice,
                 CreatedBy = auction.CreatedBy,
-                CreatedById = auction.CreatedBy.ID
+                CreatedById = auction.CreatedBy.ID,
+                ImageUrl = auction.ImageUrl
             };
         }
 

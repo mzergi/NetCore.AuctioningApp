@@ -19,5 +19,6 @@ namespace AuctioningApp.Domain.Models.DTO
         public Boolean Highlighted { get; set; }
         public int StartingPrice { get; set; }
         public User CreatedBy { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

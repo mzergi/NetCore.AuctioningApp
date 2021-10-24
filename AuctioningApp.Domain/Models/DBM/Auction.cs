@@ -17,8 +17,8 @@ namespace AuctioningApp.Domain.Models.DBM
         public List<Bid> Bids { get; set; }
         public Boolean Highlighted { get; set; }
         public int StartingPrice { get; set; }
-        public User CreatedBy { get; set; }
         public int CreatedById { get; set; }
-        public string ImageRoute { get; set; }
+        public User CreatedBy { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

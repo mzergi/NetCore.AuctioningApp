@@ -142,6 +142,7 @@ namespace AuctioningApp.Infrastructure.MSSQL_Repositories
             toUpdate.StartingPrice = auction.StartingPrice;
             toUpdate.Highlighted = auction.Highlighted;
             toUpdate.ProductID = auction.ProductID;
+            toUpdate.ImageUrl = auction.ImageUrl;
 
             await this.db.SaveChangesAsync();
 

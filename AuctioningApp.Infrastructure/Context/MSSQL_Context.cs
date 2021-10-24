@@ -189,28 +189,6 @@ namespace AuctioningApp.Infrastructure.Context
                 .HasForeignKey(b => b.BidderID)
                 .IsRequired(true)
                 .OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Bid>()
-                .HasData(
-                new []
-                {
-                    new Bid()
-                    {
-                        ID = 2,
-                        BiddedAmount = 100000,
-                        BidderID = 1,
-                        AuctionID = 2,
-                        bidTime = new System.DateTime(2020, 02, 02, 11,18,12)
-                    },
-                    new Bid()
-                    {
-                        ID = 3,
-                        BiddedAmount = 20000,
-                        BidderID = 1,
-                        AuctionID = 3,
-                        bidTime = new System.DateTime(2020, 02, 03, 10,48,53)
-                    },
-                }
-                );
 
 
             modelBuilder.Entity<Auction>()
@@ -232,49 +210,6 @@ namespace AuctioningApp.Infrastructure.Context
                 .WithMany(u => u.CreatedAuctions)
                 .HasForeignKey(a => a.CreatedById)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<Auction>()
-                .HasData(
-                    new []
-                    {
-                        new Auction()
-                        {
-                            ID = 1,
-                            Description = "iPhone X mobiltelefon, 2 hónapig használt",
-                            TopBidderID = 1,
-                            ProductID = 1,
-                            CreatedById = 1,
-                            StartOfAuction = new System.DateTime(2020,01,01,12,0,0),
-                            EndOfAuction = new System.DateTime(2024,02,01,12,0,0),
-                            Highlighted = false,
-                            StartingPrice = 120000
-                        },
-                                                new Auction()
-                        {
-                            ID = 2,
-                            Description = "Samsung Galaxy A41 mobiltelefon, 5 hónapig használt, makulátlan állapotban",
-                            TopBidderID = 1,
-                            ProductID = 2,
-                            CreatedById = 1,
-                            StartOfAuction = new System.DateTime(2020,01,01,12,0,0),
-                            EndOfAuction = new System.DateTime(2024,02,01,12,0,0),
-                            Highlighted = true,
-                            StartingPrice = 50000
-                        },
-                                                new Auction()
-                        {
-                            ID = 3,
-                            Description = "IKEA Jahrmührgangül asztal, fehér",
-                            TopBidderID = 1,
-                            ProductID = 3,
-                            CreatedById = 1,
-                            StartOfAuction = new System.DateTime(2020,01,01,12,0,0),
-                            EndOfAuction = new System.DateTime(2024,02,01,12,0,0),
-                            Highlighted = true,
-                            StartingPrice = 5000
-                        },
-                    }
-                );
         }
     }
 }
