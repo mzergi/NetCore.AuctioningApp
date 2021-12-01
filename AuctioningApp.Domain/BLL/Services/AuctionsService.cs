@@ -218,9 +218,6 @@ namespace AuctioningApp.Domain.BLL.Services
 
         public async Task<AuctionItem> PostBidOnAuction(Bid bid)
         {
-            Console.WriteLine("bid started");
-            var starttime = new Stopwatch();
-            starttime.Start();
             bid.Bidder = await usersRepository.GetUserWithoutIncludes(bid.BidderID);
 
             bid.Auction = await auctionsRepository.GetAuction(bid.AuctionID);
@@ -246,16 +243,10 @@ namespace AuctioningApp.Domain.BLL.Services
                 await bidsRepository.PostBid(bid);
                 await usersRepository.WithdrawFromUser(bid.Bidder, bid.BiddedAmount);
             }
-
-
             else
             {
                 throw new ArgumentException($"Invalid bid!");
             }
-
-            starttime.Stop();
-
-            Console.WriteLine("Time: " + starttime.Elapsed);
 
             return ConvertAuctionToAuctionItem(bid.Auction);
         }
