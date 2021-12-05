@@ -48,7 +48,7 @@ namespace AuctioningApp.API
 
             services.AddControllers();
 
-            services.AddDbContext<MSSQL_Context>(options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=AuctionAppDb;Trusted_Connection=True;"));
+            services.AddDbContext<MSSQL_Context>(options => options.UseSqlServer(Configuration.GetConnectionString("AuctionAppDb")));
             services.AddScoped<IAuctionsRepository, AuctionsRepository>();
             services.AddScoped<IBidsRepository, BidsRepository>();
             services.AddScoped<ICategoriesRepository, CategoriesRepository>();
