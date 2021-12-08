@@ -26,5 +26,14 @@ namespace AuctioningApp.API.Hubs
         {
             await context.Clients.All.SendAsync("auctionCreated", auction);
         }
+
+        public async Task DeletedAuction()
+        {
+            await context.Clients.All.SendAsync("auctionDeleted");
+        }
+        public async Task UpdatedAuction()
+        {
+            await context.Clients.All.SendAsync("auctionUpdated");
+        }
     }
 }

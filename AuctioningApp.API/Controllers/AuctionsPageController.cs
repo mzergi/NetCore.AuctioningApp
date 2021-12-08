@@ -242,6 +242,8 @@ namespace AuctioningApp.API.Controllers
 
                 var dto = auctionsService.ConvertAuctionToAuctionItem(updated);
 
+                await this.auctionsHub.UpdatedAuction();
+
                 return Ok(dto);
             }
             catch(ArgumentException ex)
@@ -330,6 +332,7 @@ namespace AuctioningApp.API.Controllers
             try
             {
                 var deleted = await this.auctionsService.RemoveAuction(id);
+                await this.auctionsHub.DeletedAuction();
                 return Ok(this.auctionsService.ConvertAuctionToAuctionItem(deleted));
             }
             catch (Exception ex)
